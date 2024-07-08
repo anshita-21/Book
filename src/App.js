@@ -5,7 +5,7 @@ import {Route, Routes} from 'react-router-dom'
 
 function App() {
   return (
-    <div className="App">
+    <div className="App relative">
       <header className="App-header">
         <Header/>
         <Routes>

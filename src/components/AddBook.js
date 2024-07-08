@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 import { TailSpin } from 'react-loader-spinner';
+import { addDoc } from "firebase/firestore";
+import { booksRef } from '../firebase/firebase';
+import swal from 'sweetalert'
 
 const AddBook = () => {
     const [form, setForm]=useState(
@@ -11,6 +14,29 @@ const AddBook = () => {
         }
     );
     const [loading, setLoading]=useState(false);
+
+    const addBook =async ()=>{
+        setLoading(true);
+        try{
+            await addDoc(booksRef, form);
+            swal({
+                title:"Successfully Added",
+                icon: "success",
+                buttons: false,
+                timer: 3000
+            })
+        } catch(err){
+            swal({
+                title:err,
+                icon: "error",
+                buttons: false,
+                timer: 3000
+            })
+        }
+        setLoading(false);
+       
+    }
+
     return (
         <div>
             <section class="text-gray-600 body-font relative">
@@ -58,7 +84,7 @@ const AddBook = () => {
                                 </div>
                             </div>
                             <div class="p-2 w-full">
-                                <button class="flex mx-auto text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">
+                                <button onClick={addBook} class="flex mx-auto text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">
                                     {loading ? <TailSpin height={25} color='white' /> : 'Submit' }</button>
                             </div>
                            
