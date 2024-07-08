@@ -39,8 +39,8 @@ const Cards = () => {
                 return (
                     <Link to={`/detail/${e.id}`}>
                     <div key={i} className='card font-medium shadow-lg p-2 hover:-translate-y-3 cursor-pointer mt-6 transition-all duration-500'>
-                        <img className='h-60 w-70 ' src={e.img} />
-                        <h1> <span className='text-blue-500 mr-1'>Name:</span> {e.title}</h1>
+                        <img className='h-60 w-70 mb-3' src={e.img} />
+                        <h1> {e.title}</h1>
                         <h1 className='flex items-center'> <span className='text-blue-500 mr-1'>Rating: </span> 
                             <ReactStars size={20} half={true} value={e.rating/e.rated} edit={false}/>
                         </h1>
