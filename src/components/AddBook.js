@@ -1,10 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import { addDoc } from "firebase/firestore";
 import { booksRef } from '../firebase/firebase';
 import swal from 'sweetalert'
+import { Appstate } from '../App';
+import { useNavigate } from 'react-router-dom';
 
 const AddBook = () => {
+    const useAppstate= useContext(Appstate);
+    const navigate= useNavigate();
     const [form, setForm]=useState(
         {
             title:"",
@@ -20,6 +24,7 @@ const AddBook = () => {
     const addBook =async ()=>{
         setLoading(true);
         try{
+            if(useAppstate.login){
             await addDoc(booksRef, form);
             swal({
                 title:"Successfully Added",
@@ -33,6 +38,10 @@ const AddBook = () => {
                 description:"",
                 img:"",
             })
+            }
+            else{
+                navigate('/login')
+            }
         } catch(err){
             swal({
                 title:err,

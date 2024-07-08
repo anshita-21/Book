@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ReactStars from 'react-stars'
 import { reviewsRef, db } from '../firebase/firebase';
 import { addDoc, Timestamp, doc, updateDoc, query, where, getDocs } from 'firebase/firestore';
 import { TailSpin, ThreeDots } from 'react-loader-spinner';
 import swal from 'sweetalert'
+import { Appstate } from '../App';
+import { useNavigate } from 'react-router-dom';
+
 
 const Reviews = ({id, prevRating, userRated}) => {
+
+    const navigate= useNavigate();
+    const useAppstate=useContext(Appstate);
     const [rating, setRating]=useState(0);
     const [loading, setLoading]=useState(false);
     const [reviewsLoading, setReviewsLoading]=useState(false);
@@ -14,9 +20,10 @@ const Reviews = ({id, prevRating, userRated}) => {
     const sendReview = async () => {
         setLoading(true);
         try{
+            if(useAppstate.login){
             await addDoc(reviewsRef, {
                 bookid:id,
-                name: "Anshita Verma",
+                name: useAppstate.userName,
                 rating:rating,
                 thought:form,
                 timestamp:new Date().getTime()
@@ -34,6 +41,10 @@ const Reviews = ({id, prevRating, userRated}) => {
                 buttons: false,
                 timer: 3000
             })
+        }
+        else{
+            navigate('/login')
+        }
         }
         catch(error){
             swal({
