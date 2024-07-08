@@ -25,6 +25,12 @@ const AddBook = () => {
                 buttons: false,
                 timer: 3000
             })
+            setForm({
+                title:"",
+                author:"",
+                description:"",
+                img:"",
+            })
         } catch(err){
             swal({
                 title:err,

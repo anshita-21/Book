@@ -4,6 +4,7 @@ import { Audio, Triangle} from 'react-loader-spinner';
 import ReactStars from 'react-stars';
 import {getDocs} from 'firebase/firestore'
 import { booksRef } from '../firebase/firebase';
+import { Link } from 'react-router-dom';
 
 const Cards = () => {
 
@@ -24,7 +25,7 @@ const Cards = () => {
             // to import data from db
             const _data=await getDocs(booksRef);
             _data.forEach((doc) => {
-                setData((prv) => [...prv, doc.data()])
+                setData((prv) => [...prv, {...(doc.data()), id: doc.id}])
             })
             setLoading(false);
         }
@@ -36,14 +37,16 @@ const Cards = () => {
             {loading? <div className='w-full flex justify-center items-center h-60'><Triangle height={40} width={100} color='white'/></div> :
             data.map((e, i) => {
                 return (
+                    <Link to={`/detail/${e.id}`}>
                     <div key={i} className='card font-medium shadow-lg p-2 hover:-translate-y-3 cursor-pointer mt-6 transition-all duration-500'>
                         <img className='h-60 w-70 ' src={e.img} />
                         <h1> <span className='text-blue-500 mr-1'>Name:</span> {e.title}</h1>
                         <h1 className='flex items-center'> <span className='text-blue-500 mr-1'>Rating: </span> 
-                            <ReactStars size={20} half={true} value={5} edit={false}/>
+                            <ReactStars size={20} half={true} value={e.rating/e.rated} edit={false}/>
                         </h1>
                         <h1> <span className='text-blue-500 mr-1'>Author:</span> {e.author}</h1>
                     </div>
+                    </Link>
                 )
             })
             }
