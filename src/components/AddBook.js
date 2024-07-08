@@ -11,6 +11,8 @@ const AddBook = () => {
             author:"",
             description:"",
             img:"",
+            rated:0,
+            rating:0
         }
     );
     const [loading, setLoading]=useState(false);
